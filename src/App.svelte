@@ -1,12 +1,37 @@
 <script>
 	import { Circle2 } from 'svelte-loading-spinners'
+	import API from '@aws-amplify/api'
 
+	$: loading = false;
+	$: titles = [];
+
+	async function getWsbData() {
+	loading = true;
+    try {
+      const response = await API.get('scrapi', '/wsb');
+      titles = response.data.titles;
+      console.log('titles:', {titles});
+	  loading=false;
+    } catch (error) {
+      console.log('error getting data:', error);
+    }
+  }
 </script>
 
 <main>
 	<h1>Hello Folks!</h1>
 	<p>Just scrapping some meme data...</p>
-	<div class="center"><Circle2 /></div>
+	
+	<div class="center">
+		<button on:click="{getWsbData}">What is r/WallStreetBets talking about?</button>
+		{#if loading}
+			<Circle2 />
+		{:else}
+			{#each titles as title}
+				<p>{title}</p>
+			{/each}
+		{/if}
+	</div>
 </main>
 
 <style>
