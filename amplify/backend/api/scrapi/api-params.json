@@ -1,0 +1,35 @@
+{
+    "paths": [
+        {
+            "name": "/wsb",
+            "lambdaFunction": "scrap",
+            "privacy": {
+                "open": true
+            },
+            "policyResourceName": "/wsb"
+        }
+    ],
+    "resourceName": "scrapi",
+    "apiName": "scrapi",
+    "functionArns": [
+        {
+            "lambdaFunction": "scrap"
+        }
+    ],
+    "privacy": {
+        "auth": 0,
+        "unauth": 0,
+        "authRoleName": "amplify-wsb-dev-220230-authRole",
+        "unAuthRoleName": "amplify-wsb-dev-220230-unauthRole"
+    },
+    "dependsOn": [
+        {
+            "category": "function",
+            "resourceName": "scrap",
+            "attributes": [
+                "Name",
+                "Arn"
+            ]
+        }
+    ]
+}

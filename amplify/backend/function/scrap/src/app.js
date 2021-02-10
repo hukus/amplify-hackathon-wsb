@@ -18,8 +18,9 @@ app.get("/wsb", function (_req, res) {
   fetch(
     "https://www.reddit.com/r/wallstreetbets/search.json?sort=top&q=flair%3ADD&restrict_sr=on&t=week"
   )
-    .then((response) => {
-      const data = response.data.children.map((c) => c.data.title);
+    .then((response) => response.json())
+    .then((json) => {
+      const data = json.data.children.map((c) => c.data.title);
       res.json({
         success: "get call succeed!",
         url: res.url,
