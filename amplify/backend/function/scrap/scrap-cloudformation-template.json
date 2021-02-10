@@ -69,7 +69,7 @@
         "Timeout": "25",
         "Code": {
           "S3Bucket": "amplify-wsb-dev-220230-deployment",
-          "S3Key": "amplify-builds/scrap-72556a5533415645706c-build.zip"
+          "S3Key": "amplify-builds/scrap-62535230354c33634850-build.zip"
         }
       }
     },
