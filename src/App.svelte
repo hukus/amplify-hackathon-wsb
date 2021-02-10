@@ -9,7 +9,7 @@
 	loading = true;
     try {
       const response = await API.get('scrapi', '/wsb');
-      titles = response.data.titles;
+      titles = response.data;
       console.log('titles:', {titles});
 	  loading=false;
     } catch (error) {
@@ -21,16 +21,19 @@
 <main>
 	<h1>Hello Folks!</h1>
 	<p>Just scrapping some meme data...</p>
+	<p>(due diligence posts from wsb in last week)</p>
 	
 	<div class="center">
 		<button on:click="{getWsbData}">What is r/WallStreetBets talking about?</button>
+		
 		{#if loading}
-			<Circle2 />
+			<div class="center spinner"><Circle2 /></div>
 		{:else}
 			{#each titles as title}
 				<p>{title}</p>
 			{/each}
 		{/if}
+		
 	</div>
 </main>
 
@@ -43,11 +46,15 @@
 	}
 
 	.center {
-		display: flex;
+		display: block;
 		margin: 42px auto;
 		width: 90%;
 		justify-content: center;
 		align-items: center;
+	}
+
+	.spinner {
+		display: flex;
 	}
 
 	h1 {
