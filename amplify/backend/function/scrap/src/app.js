@@ -20,7 +20,9 @@ app.get("/wsb", function (_req, res) {
   )
     .then((response) => response.json())
     .then((json) => {
-      const data = json.data.children.map((c) => c.data.title);
+      const data = json.data.children.map((c) => {
+        return { title: c.data.title, text: c.data.selftext };
+      });
       res.json({
         success: "get call succeed!",
         url: res.url,

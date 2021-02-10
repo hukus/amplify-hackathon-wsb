@@ -3,18 +3,19 @@
 	import API from '@aws-amplify/api'
 
 	$: loading = false;
-	$: titles = [];
+	$: posts = [];
 
 	async function getWsbData() {
 	loading = true;
     try {
       const response = await API.get('scrapi', '/wsb');
-      titles = response.data;
-      console.log('titles:', {titles});
-	  loading=false;
+      posts = response.data;
+      console.log('posts:',  {posts});
     } catch (error) {
       console.log('error getting data:', error);
-    }
+    } finally {
+	  loading=false;
+	}
   }
 </script>
 
@@ -29,8 +30,9 @@
 		{#if loading}
 			<div class="center spinner"><Circle2 /></div>
 		{:else}
-			{#each titles as title}
-				<p>{title}</p>
+			{#each posts as post}
+				<p>{post.title}</p>
+				<!-- <p>{post.text}</p> -->
 			{/each}
 		{/if}
 		
