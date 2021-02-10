@@ -20,7 +20,9 @@
 </script>
 
 <main>
+	<img src="WallStreetBets.png" alt="wsb logo">
 	<h1>Hello Folks!</h1>
+	
 	<p>Just scrapping some meme data...</p>
 	<p>(due diligence posts from wsb in last week)</p>
 	
@@ -60,9 +62,9 @@
 	}
 
 	h1 {
-		color: #ff3e00;
+		color: #a80505;
 		text-transform: uppercase;
-		font-size: 4em;
+		font-size: 3em;
 		font-weight: 100;
 	}
 
