@@ -2,6 +2,21 @@ var express = require("express");
 var bodyParser = require("body-parser");
 var awsServerlessExpressMiddleware = require("aws-serverless-express/middleware");
 const fetch = require("node-fetch");
+const wf = require("word-freq");
+const splitToWords = require("split-to-words");
+
+const tickers = require("./tickers").tickers;
+
+// parse by tokenization?
+// var str =
+//   "@someone tweeted about $FOMO houses: housing is the most expensive thing ever f#!*";
+// var freq = wf.freq(str, true, false);
+// console.log(freq);
+// console.log(splitToWords(str));
+
+function hasNumber(myString) {
+  return /\d/.test(myString);
+}
 
 var app = express();
 app.use(bodyParser.json());
@@ -20,13 +35,28 @@ app.get("/wsb", function (_req, res) {
   )
     .then((response) => response.json())
     .then((json) => {
-      const data = json.data.children.map((c) => {
-        return { title: c.data.title, text: c.data.selftext };
+      const posts = json.data.children.map((c) => c.data.selftext);
+      const allText = posts.join();
+      const words = splitToWords(allText);
+      const stocks = words.filter((w) => w.startsWith("$") && !hasNumber(w));
+      const stocksJoined = stocks.join();
+      const freq = wf.freq(stocksJoined, true, false);
+      const sortedFreq = Object.fromEntries(
+        Object.entries(freq).sort(([, a], [, b]) => b - a)
+      );
+
+      const result = Object.keys(sortedFreq).map((key) => {
+        const KEY = String(key).toUpperCase();
+        return {
+          ticker: KEY,
+          stock: tickers[KEY] || "ETF or unkown",
+          mentions: freq[key],
+        };
       });
       res.json({
         success: "get call succeed!",
         url: res.url,
-        data: data,
+        data: result,
       });
     })
     .catch((error) => res.json({ error: error }));

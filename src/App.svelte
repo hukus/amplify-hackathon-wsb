@@ -33,8 +33,7 @@
 			<div class="center spinner"><Circle2 /></div>
 		{:else}
 			{#each posts as post}
-				<p>{post.title}</p>
-				<!-- <p>{post.text}</p> -->
+				<p>{post.ticker} - {post.stock} - {post.mentions}</p>
 			{/each}
 		{/if}
 		
