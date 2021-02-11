@@ -38,7 +38,10 @@ app.get("/wsb", function (_req, res) {
       const posts = json.data.children.map((c) => c.data.selftext);
       const allText = posts.join();
       const words = splitToWords(allText);
-      const stocks = words.filter((w) => w.startsWith("$") && !hasNumber(w));
+      const stocks = words.filter((w) => {
+        const word = w.toUpperCase();
+        return Boolean(tickers[word]);
+      });
       const stocksJoined = stocks.join();
       const freq = wf.freq(stocksJoined, true, false);
       const sortedFreq = Object.fromEntries(
